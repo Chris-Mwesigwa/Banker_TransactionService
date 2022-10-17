@@ -3,6 +3,7 @@ package com.chris.Banker_TransactionService.service.serviceImpl;
 import com.chris.Banker_TransactionService.dto.Account;
 import com.chris.Banker_TransactionService.dto.Report;
 import com.chris.Banker_TransactionService.model.Transaction;
+import com.chris.Banker_TransactionService.model.TransactionType;
 import com.chris.Banker_TransactionService.repository.TransactionRepository;
 import com.chris.Banker_TransactionService.service.TransactionService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
                 ,null);
 
         if(transaction != null){
-            addTransactionBalanceUpdate(transaction.getAccountNumber(), transaction.getAmount());
+            addTransactionBalanceUpdate(transaction.getAccountNumber(), transaction.getAmount(), transaction.getTransactionType());
 
             transactionMadeReport(transactionReport);
 
@@ -69,9 +70,9 @@ public class TransactionServiceImpl implements TransactionService {
 //                .retrieve().bodyToMono(?);
 //    }
 
-    public Account addTransactionBalanceUpdate(String accNumber, long amt){
+    public Account addTransactionBalanceUpdate(String accNumber, long amt, TransactionType transactionType){
 
-        String url = baseUrl1 +"/accounts/webT/?accountNumber=" +accNumber + "&amount="+amt;
+        String url = baseUrl1 +"/accounts/webT/?accountNumber=" +accNumber + "&amount="+amt + "&transactionType=" +transactionType;
         try {
             Account account = new Account(accNumber, amt, null);
 
